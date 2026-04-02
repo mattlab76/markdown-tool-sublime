@@ -1,5 +1,16 @@
 {
+    // Standardautor für Dokument-Gerüste
     "default_author": "Matthias Haas",
+
+    // Standard-Encoding
     "default_encoding": "UTF-8",
-    "auto_format_tables": true
+
+    // Flowchart-Stil: "boxed" (Standard) oder "simple"
+    "flowchart_style": "boxed",
+
+    // Tabelle automatisch formatieren nach dem Einfügen
+    "auto_format_tables": false,
+
+    // Platzhalter-Stil in Templates: "sublime" (${}) oder "backticks" (`PLATZHALTER`)
+    "placeholder_style": "sublime"
 }

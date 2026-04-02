@@ -12,6 +12,12 @@ def _load_templates(filename):
         return json.load(f)
 
 
+def _get_setting(key, default=None):
+    """Read a value from edi_markdown.sublime-settings."""
+    settings = sublime.load_settings("edi_markdown.sublime-settings")
+    return settings.get(key, default)
+
+
 class EdiInsertSnippetCommand(sublime_plugin.TextCommand):
     """Generic command that inserts a snippet from a template file.
 
@@ -25,7 +31,20 @@ class EdiInsertSnippetCommand(sublime_plugin.TextCommand):
         if entry is None:
             sublime.status_message("EDI Markdown: Template '{}' not found".format(key))
             return
-        self.view.run_command("insert_snippet", {"contents": entry["snippet"]})
+
+        snippet = entry["snippet"]
+
+        # Substitute default_author setting into templates
+        author = _get_setting("default_author", "Autor")
+        snippet = snippet.replace("${2:Matthias Haas}", "${2:" + author + "}")
+        snippet = snippet.replace("${4:Matthias Haas}", "${4:" + author + "}")
+        snippet = snippet.replace("${9:Autor}", "${9:" + author + "}")
+
+        self.view.run_command("insert_snippet", {"contents": snippet})
+
+        # Auto-format table after insertion if enabled
+        if _get_setting("auto_format_tables", False) and file == "tables.json":
+            sublime.set_timeout(lambda: self.view.run_command("edi_format_table"), 50)
 
     def is_enabled(self, file=None, key=None):
         return self.view.match_selector(0, "text.html.markdown")

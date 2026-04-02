@@ -1,0 +1,11 @@
+[
+    { "keys": ["ctrl+alt+1"], "command": "edi_insert_table_profil",   "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+2"], "command": "edi_insert_table_felder",   "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+3"], "command": "edi_insert_table_mapping",  "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+4"], "command": "edi_insert_table_var",      "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+5"], "command": "edi_insert_table_macro",    "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+6"], "command": "edi_insert_table_response", "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+7"], "command": "edi_insert_table_fehler",   "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+8"], "command": "edi_insert_table_lbase",    "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+f"], "command": "edi_format_table",          "context": [{ "key": "selector", "operand": "text.html.markdown" }] }
+]

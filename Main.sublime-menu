@@ -1,0 +1,28 @@
+[
+    {
+        "caption": "Tools",
+        "id": "tools",
+        "children": [
+            {
+                "caption": "EDI Markdown",
+                "children": [
+                    {
+                        "caption": "Tabellen",
+                        "children": [
+                            { "caption": "Profil-Übersicht",  "command": "edi_insert_table_profil" },
+                            { "caption": "Feld-Tabelle",      "command": "edi_insert_table_felder" },
+                            { "caption": "Mapping-Tabelle",   "command": "edi_insert_table_mapping" },
+                            { "caption": "Variablen-Tabelle", "command": "edi_insert_table_var" },
+                            { "caption": "Macro-Tabelle",     "command": "edi_insert_table_macro" },
+                            { "caption": "Response Units",    "command": "edi_insert_table_response" },
+                            { "caption": "Fehlerbehandlung",  "command": "edi_insert_table_fehler" },
+                            { "caption": "Lbase-Feld-Tabelle","command": "edi_insert_table_lbase" }
+                        ]
+                    },
+                    { "caption": "-" },
+                    { "caption": "Tabelle formatieren", "command": "edi_format_table" }
+                ]
+            }
+        ]
+    }
+]

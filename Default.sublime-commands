@@ -1,0 +1,34 @@
+[
+    {
+        "caption": "EDI: Profil-Übersichtstabelle",
+        "command": "edi_insert_table_profil"
+    },
+    {
+        "caption": "EDI: Feld-Tabelle",
+        "command": "edi_insert_table_felder"
+    },
+    {
+        "caption": "EDI: Mapping-Tabelle",
+        "command": "edi_insert_table_mapping"
+    },
+    {
+        "caption": "EDI: Variablen-Tabelle",
+        "command": "edi_insert_table_var"
+    },
+    {
+        "caption": "EDI: Macro-Tabelle",
+        "command": "edi_insert_table_macro"
+    },
+    {
+        "caption": "EDI: Response Units",
+        "command": "edi_insert_table_response"
+    },
+    {
+        "caption": "EDI: Fehlerbehandlung",
+        "command": "edi_insert_table_fehler"
+    },
+    {
+        "caption": "EDI: Lbase-Feld-Tabelle",
+        "command": "edi_insert_table_lbase"
+    }
+]

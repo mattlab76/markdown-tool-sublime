@@ -1,15 +1,26 @@
 import sublime
 import sublime_plugin
-import os
 import json
+
+
+# Package name used for sublime.load_resource() – works both from
+# Packages/ folder and from .sublime-package (ZIP) files.
+_PACKAGE_NAME = "EDI Markdown Tools"
 
 
 def _load_templates(filename):
     """Load a JSON template file from the templates/ directory."""
-    plugin_dir = os.path.dirname(__file__)
-    path = os.path.join(plugin_dir, "templates", filename)
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+    resource = "Packages/{}/templates/{}".format(_PACKAGE_NAME, filename)
+    try:
+        raw = sublime.load_resource(resource)
+        return json.loads(raw)
+    except Exception:
+        # Fallback: try loading from loose files (dev/symlink installs)
+        import os
+        plugin_dir = os.path.dirname(__file__)
+        path = os.path.join(plugin_dir, "templates", filename)
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
 
 
 def _get_setting(key, default=None):

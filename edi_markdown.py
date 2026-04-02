@@ -71,3 +71,101 @@ def _make_table_command(key):
 # Register all table commands in module scope so Sublime discovers them
 for _key, _desc in _TABLE_KEYS:
     globals()["EdiInsertTable{}Command".format(_key.capitalize())] = _make_table_command(_key)
+
+
+# ---------------------------------------------------------------------------
+# Flowchart commands
+# ---------------------------------------------------------------------------
+
+_FLOW_KEYS = [
+    ("simple",         "Einfacher Flowchart"),
+    ("lobster",        "Lobster Pipeline"),
+    ("decision",       "Flowchart mit Entscheidung"),
+    ("error_handling", "Flowchart mit Fehlerbehandlung"),
+]
+
+
+def _make_flow_command(key):
+    """Factory that creates an EdiInsertFlow<Key>Command class."""
+
+    class Cmd(sublime_plugin.TextCommand):
+        def run(self, edit):
+            self.view.run_command(
+                "edi_insert_snippet", {"file": "flowcharts.json", "key": key}
+            )
+
+        def is_enabled(self):
+            return self.view.match_selector(0, "text.html.markdown")
+
+    class_name = "EdiInsertFlow{}Command".format(
+        key.replace("_", " ").title().replace(" ", "")
+    )
+    Cmd.__name__ = class_name
+    Cmd.__qualname__ = class_name
+    return Cmd
+
+
+for _key, _desc in _FLOW_KEYS:
+    globals()[
+        "EdiInsertFlow{}Command".format(
+            _key.replace("_", " ").title().replace(" ", "")
+        )
+    ] = _make_flow_command(_key)
+
+
+# ---------------------------------------------------------------------------
+# Document scaffold commands
+# ---------------------------------------------------------------------------
+
+_DOC_KEYS = [
+    ("profil",  "Profil-Dokumentation"),
+    ("bereich", "Bereichsseite"),
+    ("prozess", "Prozess-Beschreibung"),
+    ("macro",   "Macro-Dokumentation"),
+]
+
+
+def _make_doc_command(key):
+    """Factory that creates an EdiInsertDoc<Key>Command class."""
+
+    class Cmd(sublime_plugin.TextCommand):
+        def run(self, edit):
+            self.view.run_command(
+                "edi_insert_snippet", {"file": "documents.json", "key": key}
+            )
+
+        def is_enabled(self):
+            return self.view.match_selector(0, "text.html.markdown")
+
+    class_name = "EdiInsertDoc{}Command".format(key.capitalize())
+    Cmd.__name__ = class_name
+    Cmd.__qualname__ = class_name
+    return Cmd
+
+
+for _key, _desc in _DOC_KEYS:
+    globals()["EdiInsertDoc{}Command".format(_key.capitalize())] = _make_doc_command(_key)
+
+
+# ---------------------------------------------------------------------------
+# Quick-panel menu for Ctrl+Alt+D → pick a document type
+# ---------------------------------------------------------------------------
+
+class EdiDocMenuCommand(sublime_plugin.TextCommand):
+    """Shows a quick panel to choose a document scaffold."""
+
+    def run(self, edit):
+        self._items = list(_DOC_KEYS)
+        labels = [desc for _key, desc in self._items]
+        self.view.window().show_quick_panel(labels, self._on_select)
+
+    def _on_select(self, index):
+        if index == -1:
+            return
+        key = self._items[index][0]
+        self.view.run_command(
+            "edi_insert_snippet", {"file": "documents.json", "key": key}
+        )
+
+    def is_enabled(self):
+        return self.view.match_selector(0, "text.html.markdown")

@@ -7,5 +7,8 @@
     { "keys": ["ctrl+alt+6"], "command": "edi_insert_table_response", "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
     { "keys": ["ctrl+alt+7"], "command": "edi_insert_table_fehler",   "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
     { "keys": ["ctrl+alt+8"], "command": "edi_insert_table_lbase",    "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
-    { "keys": ["ctrl+alt+f"], "command": "edi_format_table",          "context": [{ "key": "selector", "operand": "text.html.markdown" }] }
+
+    { "keys": ["ctrl+alt+f"], "command": "edi_format_table",          "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+d"], "command": "edi_doc_menu",              "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+g"], "command": "edi_insert_flow_wizard",    "context": [{ "key": "selector", "operand": "text.html.markdown" }] }
 ]

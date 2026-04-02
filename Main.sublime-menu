@@ -19,6 +19,26 @@
                             { "caption": "Lbase-Feld-Tabelle","command": "edi_insert_table_lbase" }
                         ]
                     },
+                    {
+                        "caption": "Flowcharts",
+                        "children": [
+                            { "caption": "Einfach",              "command": "edi_insert_flow_simple" },
+                            { "caption": "Lobster Pipeline",     "command": "edi_insert_flow_lobster" },
+                            { "caption": "Entscheidung",         "command": "edi_insert_flow_decision" },
+                            { "caption": "Fehlerbehandlung",     "command": "edi_insert_flow_error_handling" },
+                            { "caption": "-" },
+                            { "caption": "Wizard...",            "command": "edi_insert_flow_wizard" }
+                        ]
+                    },
+                    {
+                        "caption": "Neue Dokumentation",
+                        "children": [
+                            { "caption": "Profil-Dokumentation", "command": "edi_insert_doc_profil" },
+                            { "caption": "Bereichsseite",        "command": "edi_insert_doc_bereich" },
+                            { "caption": "Prozess-Beschreibung", "command": "edi_insert_doc_prozess" },
+                            { "caption": "Macro-Dokumentation",  "command": "edi_insert_doc_macro" }
+                        ]
+                    },
                     { "caption": "-" },
                     { "caption": "Tabelle formatieren", "command": "edi_format_table" }
                 ]

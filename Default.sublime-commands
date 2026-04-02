@@ -1,34 +1,21 @@
 [
-    {
-        "caption": "EDI: Profil-Übersichtstabelle",
-        "command": "edi_insert_table_profil"
-    },
-    {
-        "caption": "EDI: Feld-Tabelle",
-        "command": "edi_insert_table_felder"
-    },
-    {
-        "caption": "EDI: Mapping-Tabelle",
-        "command": "edi_insert_table_mapping"
-    },
-    {
-        "caption": "EDI: Variablen-Tabelle",
-        "command": "edi_insert_table_var"
-    },
-    {
-        "caption": "EDI: Macro-Tabelle",
-        "command": "edi_insert_table_macro"
-    },
-    {
-        "caption": "EDI: Response Units",
-        "command": "edi_insert_table_response"
-    },
-    {
-        "caption": "EDI: Fehlerbehandlung",
-        "command": "edi_insert_table_fehler"
-    },
-    {
-        "caption": "EDI: Lbase-Feld-Tabelle",
-        "command": "edi_insert_table_lbase"
-    }
+    { "caption": "EDI: Profil-Übersichtstabelle",        "command": "edi_insert_table_profil" },
+    { "caption": "EDI: Feld-Tabelle",                    "command": "edi_insert_table_felder" },
+    { "caption": "EDI: Mapping-Tabelle",                 "command": "edi_insert_table_mapping" },
+    { "caption": "EDI: Variablen-Tabelle",               "command": "edi_insert_table_var" },
+    { "caption": "EDI: Macro-Tabelle",                   "command": "edi_insert_table_macro" },
+    { "caption": "EDI: Response Units",                  "command": "edi_insert_table_response" },
+    { "caption": "EDI: Fehlerbehandlung",                "command": "edi_insert_table_fehler" },
+    { "caption": "EDI: Lbase-Feld-Tabelle",              "command": "edi_insert_table_lbase" },
+
+    { "caption": "EDI: Flowchart – Einfach",             "command": "edi_insert_flow_simple" },
+    { "caption": "EDI: Flowchart – Lobster Pipeline",    "command": "edi_insert_flow_lobster" },
+    { "caption": "EDI: Flowchart – Entscheidung",        "command": "edi_insert_flow_decision" },
+    { "caption": "EDI: Flowchart – Fehlerbehandlung",    "command": "edi_insert_flow_error_handling" },
+    { "caption": "EDI: Flowchart – Wizard...",           "command": "edi_insert_flow_wizard" },
+
+    { "caption": "EDI: Neue Profil-Dokumentation",       "command": "edi_insert_doc_profil" },
+    { "caption": "EDI: Neue Bereichsseite",              "command": "edi_insert_doc_bereich" },
+    { "caption": "EDI: Neue Prozess-Beschreibung",       "command": "edi_insert_doc_prozess" },
+    { "caption": "EDI: Neue Macro-Dokumentation",        "command": "edi_insert_doc_macro" }
 ]

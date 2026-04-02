@@ -17,5 +17,9 @@
     { "caption": "EDI: Neue Profil-Dokumentation",       "command": "edi_insert_doc_profil" },
     { "caption": "EDI: Neue Bereichsseite",              "command": "edi_insert_doc_bereich" },
     { "caption": "EDI: Neue Prozess-Beschreibung",       "command": "edi_insert_doc_prozess" },
-    { "caption": "EDI: Neue Macro-Dokumentation",        "command": "edi_insert_doc_macro" }
+    { "caption": "EDI: Neue Macro-Dokumentation",        "command": "edi_insert_doc_macro" },
+
+    { "caption": "EDI: Auswahl als Vorlage speichern...", "command": "edi_save_template" },
+    { "caption": "EDI: Eigene Vorlage einfügen...",       "command": "edi_insert_user_template" },
+    { "caption": "EDI: Eigene Vorlage löschen...",        "command": "edi_delete_user_template" }
 ]

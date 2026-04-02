@@ -10,5 +10,8 @@
 
     { "keys": ["ctrl+alt+f"], "command": "edi_format_table",          "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
     { "keys": ["ctrl+alt+d"], "command": "edi_doc_menu",              "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
-    { "keys": ["ctrl+alt+g"], "command": "edi_insert_flow_wizard",    "context": [{ "key": "selector", "operand": "text.html.markdown" }] }
+    { "keys": ["ctrl+alt+g"], "command": "edi_insert_flow_wizard",    "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+
+    { "keys": ["ctrl+alt+s"], "command": "edi_save_template",         "context": [{ "key": "selector", "operand": "text.html.markdown" }] },
+    { "keys": ["ctrl+alt+u"], "command": "edi_insert_user_template",  "context": [{ "key": "selector", "operand": "text.html.markdown" }] }
 ]

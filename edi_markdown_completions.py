@@ -1,5 +1,7 @@
 import sublime
 import sublime_plugin
+import os
+import json
 
 
 class EdiMarkdownCompletionListener(sublime_plugin.EventListener):
@@ -36,7 +38,7 @@ class EdiMarkdownCompletionListener(sublime_plugin.EventListener):
             return None
 
         prefix_lower = prefix.lower()
-        if not any(prefix_lower.startswith(p) for p in ("tbl", "flow", "doc")):
+        if not any(prefix_lower.startswith(p) for p in ("tbl", "flow", "doc", "my")):
             return None
 
         completions = []
@@ -52,6 +54,30 @@ class EdiMarkdownCompletionListener(sublime_plugin.EventListener):
                     command=command,
                 )
             )
+
+        # Add user-defined templates (trigger: my.*)
+        user_path = os.path.join(
+            sublime.packages_path(), "User", "EDI Markdown Tools", "user_templates.json"
+        )
+        if os.path.isfile(user_path):
+            try:
+                with open(user_path, "r", encoding="utf-8") as f:
+                    user_templates = json.load(f)
+                for key, entry in user_templates.items():
+                    completions.append(
+                        sublime.CompletionItem(
+                            trigger="my.{}".format(key),
+                            annotation=entry.get("name", key),
+                            completion="",
+                            completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                            kind=(sublime.KIND_ID_SNIPPET, "U", "User"),
+                            details=entry.get("category", "eigene Vorlage"),
+                            command="edi_insert_snippet_user",
+                            command_args={"key": key},
+                        )
+                    )
+            except Exception:
+                pass
 
         return sublime.CompletionList(
             completions,

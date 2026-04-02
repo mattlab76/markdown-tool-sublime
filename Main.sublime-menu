@@ -39,6 +39,15 @@
                             { "caption": "Macro-Dokumentation",  "command": "edi_insert_doc_macro" }
                         ]
                     },
+                    {
+                        "caption": "Eigene Vorlagen",
+                        "children": [
+                            { "caption": "Vorlage einfügen...",            "command": "edi_insert_user_template" },
+                            { "caption": "Auswahl als Vorlage speichern...","command": "edi_save_template" },
+                            { "caption": "-" },
+                            { "caption": "Vorlage löschen...",             "command": "edi_delete_user_template" }
+                        ]
+                    },
                     { "caption": "-" },
                     { "caption": "Tabelle formatieren", "command": "edi_format_table" }
                 ]

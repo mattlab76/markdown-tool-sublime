@@ -1,11 +1,46 @@
 import sublime
 import sublime_plugin
 import json
+import os
 
 
 # Package name used for sublime.load_resource() – works both from
 # Packages/ folder and from .sublime-package (ZIP) files.
 _PACKAGE_NAME = "EDI Markdown Tools"
+
+# User templates are stored in Packages/User/EDI Markdown Tools/
+_USER_TEMPLATES_DIR = os.path.join(
+    sublime.packages_path(), "User", _PACKAGE_NAME
+) if hasattr(sublime, "packages_path") else ""
+
+
+def _ensure_user_templates_dir():
+    """Create the user templates directory if it doesn't exist."""
+    d = os.path.join(sublime.packages_path(), "User", _PACKAGE_NAME)
+    if not os.path.isdir(d):
+        os.makedirs(d)
+    return d
+
+
+def _user_templates_path():
+    """Return path to the user's custom templates JSON file."""
+    return os.path.join(_ensure_user_templates_dir(), "user_templates.json")
+
+
+def _load_user_templates():
+    """Load user-defined templates from Packages/User/EDI Markdown Tools/."""
+    path = _user_templates_path()
+    if os.path.isfile(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def _save_user_templates(data):
+    """Save user-defined templates to Packages/User/EDI Markdown Tools/."""
+    path = _user_templates_path()
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
 
 
 def _load_templates(filename):
@@ -16,7 +51,6 @@ def _load_templates(filename):
         return json.loads(raw)
     except Exception:
         # Fallback: try loading from loose files (dev/symlink installs)
-        import os
         plugin_dir = os.path.dirname(__file__)
         path = os.path.join(plugin_dir, "templates", filename)
         with open(path, "r", encoding="utf-8") as f:
@@ -58,6 +92,21 @@ class EdiInsertSnippetCommand(sublime_plugin.TextCommand):
             sublime.set_timeout(lambda: self.view.run_command("edi_format_table"), 50)
 
     def is_enabled(self, file=None, key=None):
+        return self.view.match_selector(0, "text.html.markdown")
+
+
+class EdiInsertSnippetUserCommand(sublime_plugin.TextCommand):
+    """Insert a user-defined template by key (used by autocomplete)."""
+
+    def run(self, edit, key):
+        templates = _load_user_templates()
+        entry = templates.get(key)
+        if entry is None:
+            sublime.status_message("EDI Markdown: Vorlage '{}' nicht gefunden".format(key))
+            return
+        self.view.run_command("insert_snippet", {"contents": entry["snippet"]})
+
+    def is_enabled(self, key=None):
         return self.view.match_selector(0, "text.html.markdown")
 
 
@@ -195,6 +244,124 @@ class EdiDocMenuCommand(sublime_plugin.TextCommand):
         key = self._items[index][0]
         self.view.run_command(
             "edi_insert_snippet", {"file": "documents.json", "key": key}
+        )
+
+    def is_enabled(self):
+        return self.view.match_selector(0, "text.html.markdown")
+
+
+# ---------------------------------------------------------------------------
+# User templates – save selection as template / insert user template
+# ---------------------------------------------------------------------------
+
+class EdiSaveTemplateCommand(sublime_plugin.TextCommand):
+    """Save the current selection as a reusable user template."""
+
+    def run(self, edit):
+        sel = self.view.sel()
+        if not sel or sel[0].empty():
+            sublime.status_message("EDI Markdown: Bitte zuerst Text markieren")
+            return
+
+        self._content = self.view.substr(sel[0])
+        self.view.window().show_input_panel(
+            "Vorlagen-Name:", "", self._on_name, None, None
+        )
+
+    def _on_name(self, name):
+        name = name.strip()
+        if not name:
+            return
+
+        self._name = name
+        self.view.window().show_input_panel(
+            "Kategorie (tabelle/flowchart/dokument/sonstig):",
+            "sonstig",
+            self._on_category,
+            None, None,
+        )
+
+    def _on_category(self, category):
+        category = category.strip().lower() or "sonstig"
+        key = self._name.lower().replace(" ", "_").replace("-", "_")
+
+        templates = _load_user_templates()
+        templates[key] = {
+            "name": self._name,
+            "category": category,
+            "description": self._name,
+            "snippet": self._content,
+        }
+        _save_user_templates(templates)
+        sublime.status_message(
+            "EDI Markdown: Vorlage '{}' gespeichert".format(self._name)
+        )
+
+    def is_enabled(self):
+        return self.view.match_selector(0, "text.html.markdown")
+
+
+class EdiInsertUserTemplateCommand(sublime_plugin.TextCommand):
+    """Show a quick panel of user-defined templates and insert the chosen one."""
+
+    def run(self, edit):
+        templates = _load_user_templates()
+        if not templates:
+            sublime.status_message("EDI Markdown: Keine eigenen Vorlagen vorhanden")
+            return
+
+        self._keys = list(templates.keys())
+        self._templates = templates
+
+        labels = []
+        for k in self._keys:
+            t = templates[k]
+            labels.append(
+                sublime.QuickPanelItem(
+                    trigger=t.get("name", k),
+                    annotation=t.get("category", ""),
+                    details=t.get("description", ""),
+                )
+            )
+
+        self.view.window().show_quick_panel(labels, self._on_select)
+
+    def _on_select(self, index):
+        if index == -1:
+            return
+        key = self._keys[index]
+        snippet = self._templates[key]["snippet"]
+        self.view.run_command("insert_snippet", {"contents": snippet})
+
+    def is_enabled(self):
+        return self.view.match_selector(0, "text.html.markdown")
+
+
+class EdiDeleteUserTemplateCommand(sublime_plugin.TextCommand):
+    """Show a quick panel to delete a user-defined template."""
+
+    def run(self, edit):
+        templates = _load_user_templates()
+        if not templates:
+            sublime.status_message("EDI Markdown: Keine eigenen Vorlagen vorhanden")
+            return
+
+        self._keys = list(templates.keys())
+        self._templates = templates
+
+        labels = [templates[k].get("name", k) for k in self._keys]
+        self.view.window().show_quick_panel(labels, self._on_select)
+
+    def _on_select(self, index):
+        if index == -1:
+            return
+        key = self._keys[index]
+        name = self._templates[key].get("name", key)
+        templates = _load_user_templates()
+        del templates[key]
+        _save_user_templates(templates)
+        sublime.status_message(
+            "EDI Markdown: Vorlage '{}' gelöscht".format(name)
         )
 
     def is_enabled(self):
